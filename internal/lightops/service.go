@@ -95,7 +95,8 @@ func (s *Service) RegisterSchedule(ctx context.Context, schedule Schedule) (Sche
 }
 
 func (s *Service) SaveAssessment(ctx context.Context, assessment Assessment) (Assessment, error) {
-	if err := ctx.Err(); err != nil {
+	operationCtx := assessmentContextError(ctx)
+	if err := operationCtx.Err(); err != nil {
 		return Assessment{}, err
 	}
 	s.store.mu.Lock()
